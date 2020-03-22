@@ -125,7 +125,8 @@ export default class BlocksAPI extends Module {
    */
   public render(data: OutputData): Promise<void> {
     this.Editor.BlockManager.clear();
-    return this.Editor.Renderer.render(data.blocks);
+    const pulledBlocks: BlockToolData[] = Object.values(data.blocks);
+    return this.Editor.Renderer.render(pulledBlocks);
   }
 
   /**

@@ -7,6 +7,7 @@
  */
 import Module from '../__module';
 import {OutputData} from '../../../types';
+import {OutputObject} from '../../../types/data-formats/output-data';
 import {ValidatedData} from '../../types-internal/block-data';
 import Block from '../block';
 import * as _ from '../utils';
@@ -35,28 +36,28 @@ export default class Saver extends Module {
      */
     ModificationsObserver.disable();
 
-    blocks.forEach((block: Block) => {
-     chainData.push(this.getSavedData(block));
+    // Get the index of the blocks as well as the actual block object
+    blocks.forEach((block: Block, i: number) => {
+     chainData.push(this.getSavedData(block, i));
     });
 
     const extractedData = await Promise.all(chainData);
     const sanitizedData = await Sanitizer.sanitizeBlocks(extractedData);
-
     ModificationsObserver.enable();
-
     return this.makeOutput(sanitizedData);
   }
 
   /**
    * Saves and validates
    * @param {Block} block - Editor's Tool
+   * @param {number} idx - The index of the block in the list
    * @return {ValidatedData} - Tool's validated data
    */
-  private async getSavedData(block: Block): Promise<ValidatedData> {
+  private async getSavedData(block: Block, idx: number): Promise<ValidatedData> {
       const blockData = await block.save();
       const isValid = blockData && await block.validate(blockData.data);
 
-      return {...blockData, isValid};
+      return {...blockData, isValid, index: idx};
   }
 
   /**
@@ -66,11 +67,11 @@ export default class Saver extends Module {
    */
   private makeOutput(allExtractedData): OutputData {
     let totalTime = 0;
-    const blocks = [];
+    const blocks = {};
 
     _.log('[Editor.js saving]:', 'groupCollapsed');
 
-    allExtractedData.forEach(({tool, data, time, isValid}) => {
+    allExtractedData.forEach(({tool, data, time, isValid, index}) => {
       totalTime += time;
 
       /**
@@ -90,11 +91,11 @@ export default class Saver extends Module {
 
       /** If it was stub Block, get original data */
       if (tool === this.Editor.Tools.stubTool) {
-        blocks.push(data);
+        blocks[index] = data;
         return;
       }
 
-      blocks.push({
+      blocks[index] = ({
         type: tool,
         data,
       });
@@ -105,8 +106,8 @@ export default class Saver extends Module {
 
     return {
       time: +new Date(),
-      blocks,
       version: VERSION,
+      blocks,
     };
   }
 }

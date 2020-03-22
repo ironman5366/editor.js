@@ -192,7 +192,7 @@ export default class Core {
       this.config.data = {} as OutputData;
       this.config.data.blocks = [ initialBlockData ];
     } else {
-      if (!this.config.data.blocks || this.config.data.blocks.length === 0) {
+      if (!this.config.data.blocks || Object.values(this.config.data.blocks).length === 0) {
         this.config.data.blocks = [ initialBlockData ];
       }
     }
@@ -283,7 +283,7 @@ export default class Core {
    * Render initial data
    */
   private render(): Promise<void> {
-    return this.moduleInstances.Renderer.render(this.config.data.blocks);
+    return this.moduleInstances.Renderer.render(Object.values(this.config.data.blocks));
   }
 
   /**

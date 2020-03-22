@@ -17,4 +17,5 @@ export interface ValidatedData {
     data?: BlockToolData;
     time?: number;
     isValid: boolean;
+    index: number;
 }

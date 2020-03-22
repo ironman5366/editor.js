@@ -1,5 +1,5 @@
 import {OutputData} from '../data-formats/output-data';
-import {BlockToolData, ToolConfig} from "../tools";
+import {BlockToolData, ToolConfig} from '../tools';
 
 /**
  * Describes methods to manipulate with Editor`s blocks
