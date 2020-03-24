@@ -96,22 +96,22 @@ declare class EditorJS {
   /**
    * @see Saver.save
    */
-  public save(): Promise<OutputData>;
+  public save(page: number): Promise<OutputData>;
 
   /**
    * @see Blocks.clear
    */
-  public clear(): void;
+  public clear(page: number | string): void;
 
   /**
    * @see Blocks.render
    */
-  public render(data: OutputData): Promise<void>;
+  public render(page: number, data: OutputData): Promise<void>;
 
   /**
    * @see Caret.focus
    */
-  public focus(atEnd?: boolean): boolean;
+  public focus(page: number, atEnd?: boolean): boolean;
 
   /**
    * @see Events.on

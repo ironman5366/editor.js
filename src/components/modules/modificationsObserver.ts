@@ -33,6 +33,11 @@ export default class ModificationsObserver extends Module {
    */
   private mutationDebouncer = _.debounce( () => {
     this.updateNativeInputs();
+    if (this.isHeightOverflowing()) {
+      console.log('Height is overflowing');
+    } else {
+      console.log('Height is not overflowing');
+    }
     this.config.onChange(this.Editor.API.methods);
   }, ModificationsObserver.DebounceTimer);
 
@@ -81,6 +86,15 @@ export default class ModificationsObserver extends Module {
    */
   public enable() {
     this.disabled = false;
+  }
+
+  private isHeightOverflowing(): boolean {
+    const nodes = this.Editor.UI.nodes;
+    console.log('Nodes', nodes);
+    // If the editor is overflowing, it'll be taller than it's wrapper, which has a fixed height. When this is the case,
+    // blocks should be broken up into different pages
+    console.log(`Wrapper height is ${nodes.wrapper.offsetHeight}, redactor height is ${nodes.redactor.offsetHeight}`);
+    return (nodes.wrapper.offsetHeight < nodes.redactor.offsetHeight);
   }
 
   /**

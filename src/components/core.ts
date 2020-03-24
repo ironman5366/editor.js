@@ -62,7 +62,6 @@ export default class Core {
      * Ready promise. Resolved if Editor.js is ready to work, rejected otherwise
      */
     let onReady, onFail;
-
     this.isReady = new Promise((resolve, reject) => {
       onReady = resolve;
       onFail = reject;
@@ -155,12 +154,6 @@ export default class Core {
      * If initial Block's Tool was not passed, use the Paragraph Tool
      */
     this.config.initialBlock = this.config.initialBlock || 'paragraph';
-
-    /**
-     * Height of Editor's bottom area that allows to set focus on the last Block
-     * @type {number}
-     */
-    this.config.minHeight = this.config.minHeight !== undefined ? this.config.minHeight : 300 ;
 
     /**
      * Initial block type

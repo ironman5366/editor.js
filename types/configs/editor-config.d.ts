@@ -1,5 +1,5 @@
 import {ToolConstructable, ToolSettings} from '../tools';
-import {LogLevels, OutputData, API} from '../index';
+import {API, LogLevels, OutputData} from '../index';
 import {SanitizerConfig} from './sanitizer-config';
 
 export interface EditorConfig {
@@ -53,9 +53,9 @@ export interface EditorConfig {
   data?: OutputData;
 
   /**
-   * Height of Editor's bottom area that allows to set focus on the last Block
+   * Height of each page, will paginate when this height is exceeded
    */
-  minHeight?: number;
+  height?: number;
 
   /**
    * Editors log level (how many logs you want to see)

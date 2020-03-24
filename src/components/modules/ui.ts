@@ -255,9 +255,9 @@ export default class UI extends Module {
     }
 
     /**
-     * Set customizable bottom zone height
+     * For pagination, set customizable document height. If none is provided, document will continue infinitely
      */
-    this.nodes.redactor.style.paddingBottom = this.config.minHeight + 'px';
+    this.nodes.wrapper.style.height = this.config.height + 'vh';
 
     this.nodes.wrapper.appendChild(this.nodes.redactor);
     this.nodes.holder.appendChild(this.nodes.wrapper);
@@ -328,6 +328,7 @@ export default class UI extends Module {
    * Resize window handler
    */
   private windowResize(): void {
+    console.log('Window size changed');
     /**
      * Invalidate content zone size cached, because it may be changed
      */
